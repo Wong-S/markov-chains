@@ -1,4 +1,5 @@
 """Generate Markov text from text files."""
+import random
 
 from random import choice
 
@@ -11,8 +12,13 @@ def open_and_read_file(file_path):
     """
 
     # your code goes here
+    text_file = open(file_path).read()
+    # for line in text_file:
+    #     print(line)
 
-    return 'Contents of your file as one long string'
+    # print(text_file)
+
+    return text_file
 
 
 def make_chains(text_string):
@@ -40,32 +46,67 @@ def make_chains(text_string):
         [None]
     """
 
+    words = text_string.split()
+
     chains = {}
+    # value = []
+    index = 0
 
-    # your code goes here
+    for word in words:
 
+        if index < (len(words) - 2):
+            second_word = words[index + 1]
+            third_word = words[index + 2]
+            keys = (word, second_word)  # TUPLE
+            if keys in chains:
+                chains[(keys)].append(third_word)
+                index += 1
+            else:
+                chains[(keys)] = [third_word]
+                index += 1
+
+    # print(chains[(keys)])
     return chains
 
 
 def make_text(chains):
     """Return text from chains."""
+    # print(chains[0])
 
     words = []
-
+    random_key = random.choice(list(chains.keys()))
+    random_key_word = random.choice(random_key)
+    print(random_key)
+    print(random_key_word)
     # your code goes here
+    # link is a tuple/ key form our dictionary
+    # the link also includes a random word from the value of that key (rnaomd single value)
+    # Iterate over
 
-    return ' '.join(words)
+    # for key, value in chains.items():
+    # print(key, value)
+    # first_key = random.choice(chains.keys())
+    # first_value = random.choice(chains[key])
+    # print(first_key)
+    # words.append(first_key)
+    # words.append(first_value)
+    # break
+    # print(first_key)
+    # print(words)
+
+    return " ".join(words)
 
 
-input_path = 'green-eggs.txt'
+input_path = "green-eggs.txt"
 
 # Open the file and turn it into one long string
 input_text = open_and_read_file(input_path)
-
+# print(input_text)
 # Get a Markov chain
 chains = make_chains(input_text)
 
 # Produce random text
 random_text = make_text(chains)
 
-print(random_text)
+# print(random_text)
+
